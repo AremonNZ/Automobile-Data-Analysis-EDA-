@@ -2,7 +2,7 @@
 
 ## 📌 Overview
 
-This project explores an automobile dataset to uncover patterns in vehicle characteristics such as price, engine size, fuel efficiency, and body type.
+This project explores the UCI Automobile dataset (205 real vehicles) to uncover patterns in vehicle characteristics such as price, engine size, fuel efficiency, and body type.
 
 The goal is to perform **data cleaning, exploratory data analysis (EDA), and statistical investigation** to better understand the factors influencing car attributes.
 
@@ -10,7 +10,7 @@ The goal is to perform **data cleaning, exploratory data analysis (EDA), and sta
 
 ## 📊 Dataset
 
-* Automobile dataset (Car Dataset.csv)
+* UCI Automobile Dataset (`Car Dataset.csv`) — 205 vehicles after cleaning
 * Includes features such as:
 
   * Engine size
@@ -25,20 +25,16 @@ The goal is to perform **data cleaning, exploratory data analysis (EDA), and sta
 
 ### 1. Data Cleaning
 
-* Removed duplicate records
-* Handled missing values
-* Verified data types and structure
+* Removed 6 duplicate records (211 → 205 rows)
+* Replaced `'?'` placeholders with proper missing values and imputed them (median for numeric columns, mode for categorical)
+* Verified data types and structure — notably kept `num-of-doors` as categorical text rather than incorrectly coercing it to numeric
 
 ---
 
 ### 2. Outlier Detection
 
-* Applied **Z-score method** to identify outliers
-* Analysed numerical features such as:
-
-  * Engine size
-  * Curb weight
-  * Fuel efficiency
+* Applied the **Z-score method** (threshold = 3) to identify outliers across engine size, curb weight, fuel efficiency, and price
+* Flagged 11 outlier rows out of 205 and removed them for the distribution/correlation analysis
 
 ---
 
@@ -50,11 +46,27 @@ The goal is to perform **data cleaning, exploratory data analysis (EDA), and sta
 
 ---
 
+## 🐛 Debugging Note — a bug I found and fixed in my own code
+
+My first version of the outlier-removal step looped over each numeric column to compute
+Z-scores, but the removal mask was only being built from whichever column the loop
+finished on last — silently ignoring outliers in every other column. I caught this by
+checking the outlier counts per column against the final removed-row count and noticing
+they didn't add up.
+
+The fix: compute Z-scores for all analysis columns at once (vectorised, not looped),
+then flag a row as an outlier if it's an outlier on *any* column using `.any(axis=1)`.
+That way every column actually contributes to the final removal decision, not just the
+last one in the loop.
+
+---
+
 ## 📈 Key Insights
 
-* Larger engine sizes are generally associated with higher vehicle weight and lower fuel efficiency
-* Outliers exist in features like engine size and curb weight, which may affect model performance
-* Certain vehicle attributes show strong relationships that could be useful for predictive modelling
+* Larger engine sizes are generally associated with higher vehicle weight and lower fuel efficiency (engine size vs. city MPG correlation: **-0.64**; vs. highway MPG: **-0.65**)
+* Hardtop and convertible body styles command the highest median prices; rear-wheel-drive vehicles also trend more expensive
+* Outliers in engine size and curb weight typically represent luxury or high-performance models rather than data errors
+* Mean price across the cleaned dataset: **$12,225** (median: **$10,270**), range **$5,118–$35,056**
 
 ---
 
@@ -80,3 +92,12 @@ The goal is to perform **data cleaning, exploratory data analysis (EDA), and sta
 * Pandas, NumPy
 * Matplotlib, Seaborn
 * SciPy
+
+---
+
+## 👤 Author
+
+**Arman Arabkhani**
+Final-year Computer Science (Data Science) student @ Auckland University of Technology
+📧 armanarabkhani.nz@yahoo.com
+🔗 [LinkedIn](https://www.linkedin.com/in/arman-arabkhani-95903a384/) | [GitHub](https://github.com/AremonNZ)
