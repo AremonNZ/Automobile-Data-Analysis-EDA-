@@ -75,6 +75,7 @@ last one in the loop.
 * Dataset may not represent the full diversity of real-world automobile data
 * Outlier removal decisions can impact analysis results
 * No predictive modeling was applied in this project
+* The 4 missing prices were median-imputed. For price analysis, leaving them blank is more defensible (one was a Porsche given a budget price), so the Power BI follow-up excludes them from price calculations
 
 ---
 
@@ -82,7 +83,18 @@ last one in the loop.
 
 * Build a regression model to predict car prices
 * Perform feature engineering for improved insights
-* Deploy findings into a dashboard or interactive app
+* ✅ **Done:** the findings are now an interactive Power BI dashboard, with a star-schema model and DAX measures. See [automobile-market-dashboard](https://github.com/AremonNZ/automobile-market-dashboard)
+
+---
+
+## ▶️ How to Run
+
+1. Get the [UCI Automobile dataset](https://archive.ics.uci.edu/dataset/10/automobile) with column headers and save it in this folder as `Car Dataset.csv`.
+2. Install the dependencies:
+   ```bash
+   pip install pandas numpy matplotlib seaborn scipy
+   ```
+3. Open and run `Car_Market_EDA.ipynb` in Jupyter.
 
 ---
 
