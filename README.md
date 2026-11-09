@@ -92,7 +92,7 @@ last one in the loop.
 1. Get the [UCI Automobile dataset](https://archive.ics.uci.edu/dataset/10/automobile) with column headers and save it in this folder as `Car Dataset.csv`.
 2. Install the dependencies:
    ```bash
-   pip install pandas numpy matplotlib seaborn scipy
+   pip install -r requirements.txt
    ```
 3. Open and run `Car_Market_EDA.ipynb` in Jupyter.
 
